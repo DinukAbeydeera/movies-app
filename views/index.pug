@@ -1,4 +1,13 @@
 extends layout
+
 block content
-  h1 Movies App
-  p Welcome! Use the nav to Login/Register and manage movies.
+  .hero
+    h1 Welcome to Movies App
+    p.text-muted Track, rate, and manage your favorite films.
+    .hero-actions
+      if !currentUser
+        a.btn.btn-primary(href="/register") Get Started
+        a.btn.btn-outline(href="/login") Login
+      else
+        a.btn.btn-primary(href="/movies") View Movies
+        a.btn.btn-outline(href="/movies/new") Add Movie

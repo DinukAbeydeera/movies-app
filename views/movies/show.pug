@@ -1,22 +1,23 @@
 extends ../layout
 
 block content
-  h1 #{movie.name} (#{movie.year})
-  if movie.genres && movie.genres.length
-    p
-      b Genres:
-      |  #{movie.genres.join(', ')}
-  if movie.rating != null
-    p
-      b Rating:
-      |  #{movie.rating}
-  p= movie.description
-  p.text-muted Posted by #{movie.createdBy ? movie.createdBy.username : 'unknown'}
+  .detail
+    .detail-header
+      h1 #{movie.name} (#{movie.year})
+      if movie.rating != null
+        .badge.large Rating: #{movie.rating}
+    if movie.genres && movie.genres.length
+      p
+        b Genres:
+        |  #{' ' + movie.genres.join(', ')}
+    p= movie.description
+    p.text-muted Posted by #{movie.createdBy ? movie.createdBy.username : 'unknown'}
 
-  if isOwner
-    a.btn(href=`/movies/${movie._id}/edit`) Edit
-    button#deleteBtn.btn.btn-accent(type="button" data-id=movie._id style="margin-left:8px") Delete
-  a.btn-accent(href="/movies" style="margin-left:8px") ← Back to list
+    .actions
+      if isOwner
+        a.btn.btn-primary(href=`/movies/${movie._id}/edit`) Edit
+        button#deleteBtn.btn.btn-danger(type="button" data-id=movie._id) Delete
+      a.btn.btn-outline(href="/movies") ← Back to list
 
   script.
     (function(){

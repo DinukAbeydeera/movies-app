@@ -4,35 +4,27 @@ html
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1")
     title= title || 'Movies App'
-    link(rel="stylesheet", href="/css/style.css")
+    link(rel="stylesheet", href="/css/styles.css")
     script.
       document.addEventListener('DOMContentLoaded', function () {
         const btn = document.getElementById('menu-toggle');
         const menu = document.getElementById('dropdown-menu');
+        if (!btn || !menu) return;
 
-        function toggleMenu() { menu.classList.toggle('show'); }
-
-        btn?.addEventListener('click', (e) => {
+        btn.addEventListener('click', (e) => {
           e.stopPropagation();
-          toggleMenu();
+          menu.classList.toggle('show');
         });
-
         document.addEventListener('click', (e) => {
-          if (!menu.contains(e.target) && !btn.contains(e.target)) {
-            menu.classList.remove('show');
-          }
+          if (!menu.contains(e.target) && !btn.contains(e.target)) menu.classList.remove('show');
         });
-
-        // Close on link click (mobile)
-        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-          menu.classList.remove('show');
-        }));
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=> menu.classList.remove('show')));
       });
   body
-    nav.navbar
+    header.navbar
       .brand
         a(href="/") 🎬 Movies App
-      button#menu-toggle.nav-toggle(type="button" aria-label="Toggle navigation" aria-expanded="false") ☰
+      button#menu-toggle.nav-toggle(type="button" aria-label="Toggle navigation") ☰
       ul#dropdown-menu.nav-links
         li: a(href="/") Home
         li: a(href="/movies") Movies
@@ -44,8 +36,16 @@ html
           li: a(href="/logout") Logout
 
     .container
-      if success
-        .flash-success= success
-      if error
-        .flash-error= error
+      if success && success.length
+        .flash-success= Array.isArray(success) ? success.join(', ') : success
+      if error && error.length
+        .flash-error= Array.isArray(error) ? error.join(', ') : error
+      if success_msg && success_msg.length
+        .flash-success= success_msg
+      if error_msg && error_msg.length
+        .flash-error= error_msg
+
       block content
+
+    footer.site-footer
+      p © #{new Date().getFullYear()} Movies App · Built with Express, Pug & MongoDB

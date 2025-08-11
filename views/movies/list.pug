@@ -1,13 +1,25 @@
 extends ../layout
+
 block content
-  h1 Movies
-  if currentUser
-    a(href="/movies/new") + Add Movie
+  .page-head
+    h1 Movies
+    if currentUser
+      a.btn.btn-primary(href="/movies/new") + Add Movie
+
   if movies && movies.length
-    ul.movie-list
+    .grid
       each m in movies
-        li
-          a(href=`/movies/${m._id}`) #{m.name} (#{m.year})
-          |  — by #{m.createdBy ? m.createdBy.username : 'unknown'}
+        .card
+          .card-body
+            h3.card-title
+              a(href=`/movies/${m._id}`)= m.name
+            p.text-muted #{m.year}#{m.genres && m.genres.length ? ' · ' + m.genres.join(', ') : ''}
+            if m.rating != null
+              .badge Rating: #{m.rating}
+            .byline Posted by #{m.createdBy ? m.createdBy.username : 'unknown'}
   else
-    p No movies yet.
+    .empty
+      h3 No movies yet
+      p.text-muted Add your first movie to get started.
+      if currentUser
+        a.btn.btn-primary(href="/movies/new") Add Movie
