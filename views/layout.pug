@@ -1,0 +1,51 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    title= title || 'Movies App'
+    link(rel="stylesheet", href="/css/style.css")
+    script.
+      document.addEventListener('DOMContentLoaded', function () {
+        const btn = document.getElementById('menu-toggle');
+        const menu = document.getElementById('dropdown-menu');
+
+        function toggleMenu() { menu.classList.toggle('show'); }
+
+        btn?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleMenu();
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.classList.remove('show');
+          }
+        });
+
+        // Close on link click (mobile)
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+          menu.classList.remove('show');
+        }));
+      });
+  body
+    nav.navbar
+      .brand
+        a(href="/") 🎬 Movies App
+      button#menu-toggle.nav-toggle(type="button" aria-label="Toggle navigation" aria-expanded="false") ☰
+      ul#dropdown-menu.nav-links
+        li: a(href="/") Home
+        li: a(href="/movies") Movies
+        if !currentUser
+          li: a(href="/login") Login
+          li: a(href="/register") Register
+        else
+          li: a(href="/movies/new") Add Movie
+          li: a(href="/logout") Logout
+
+    .container
+      if success
+        .flash-success= success
+      if error
+        .flash-error= error
+      block content

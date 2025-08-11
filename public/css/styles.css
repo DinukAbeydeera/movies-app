@@ -1,0 +1,181 @@
+/* ====== Base ====== */
+:root {
+  --bg: #d4f5d0;           /* Light green background */
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --text: #1f2937;
+  --muted: #6b7280;
+  --primary: #2e7d32;       /* Darker green for accents */
+  --primary-dark: #1b5e20;
+  --accent: #f59e0b;        /* Amber accent */
+  --accent-dark: #d97706;
+  --success-bg: #dcfce7;
+  --success-text: #166534;
+  --error-bg: #fee2e2;
+  --error-text: #991b1b;
+}
+
+/* Reset & Base styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* ====== Navbar ====== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--primary);
+  color: #fff;
+}
+.brand a {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Toggle (mobile) */
+.nav-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px; height: 42px;
+  font-size: 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #fff;
+  background: rgba(255,255,255,.15);
+}
+.nav-toggle:hover { background: rgba(255,255,255,.25); }
+
+/* Dropdown links */
+.nav-links {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: none;
+  position: absolute;
+  right: 14px;
+  top: 64px;
+  min-width: 200px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.18);
+  overflow: hidden;
+}
+.nav-links li { border-bottom: 1px solid rgba(0,0,0,0.05); }
+.nav-links li:last-child { border-bottom: none; }
+.nav-links a {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  transition: background 0.2s ease, padding-left 0.2s ease;
+}
+.nav-links a:hover {
+  background: rgba(46,125,50,0.08);
+  padding-left: 20px;
+}
+.nav-links.show { display: block; }
+
+/* Desktop menu */
+@media (min-width: 800px) {
+  .nav-toggle { display: none; }
+  .nav-links {
+    position: static;
+    display: flex !important;
+    background: transparent;
+    box-shadow: none;
+    gap: 10px;
+  }
+  .nav-links li { border: none; }
+  .nav-links a {
+    color: #fff; padding: 8px 14px; border-radius: 8px;
+  }
+  .nav-links a:hover {
+    background: rgba(255,255,255,.18);
+    padding-left: 14px;
+  }
+}
+
+/* ====== Main Container ====== */
+.container {
+  max-width: 980px;
+  margin: 40px auto;
+  background: var(--card-bg);
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.15);
+}
+
+/* ====== Buttons ====== */
+.btn {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+.btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+.btn-accent { background: var(--accent); }
+.btn-accent:hover { background: var(--accent-dark); }
+
+/* ====== Forms ====== */
+form { display: grid; gap: 14px; }
+label { font-weight: 600; }
+input, textarea, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(46,125,50,0.25);
+}
+
+/* ====== Flash Messages ====== */
+.flash-success {
+  background: var(--success-bg);
+  color: var(--success-text);
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.flash-error {
+  background: var(--error-bg);
+  color: var(--error-text);
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+/* ====== Lists ====== */
+.movie-list { list-style: none; padding: 0; margin: 0; }
+.movie-list li {
+  padding: 14px 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  display: flex; justify-content: space-between;
+}
+.movie-list li a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+.movie-list li a:hover { text-decoration: underline; }

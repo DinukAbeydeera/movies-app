@@ -1,0 +1,13 @@
+extends ../layout
+block content
+  h1 Movies
+  if currentUser
+    a(href="/movies/new") + Add Movie
+  if movies && movies.length
+    ul.movie-list
+      each m in movies
+        li
+          a(href=`/movies/${m._id}`) #{m.name} (#{m.year})
+          |  — by #{m.createdBy ? m.createdBy.username : 'unknown'}
+  else
+    p No movies yet.

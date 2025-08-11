@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+  h1 #{movie.name} (#{movie.year})
+  if movie.genres && movie.genres.length
+    p
+      b Genres:
+      |  #{movie.genres.join(', ')}
+  if movie.rating != null
+    p
+      b Rating:
+      |  #{movie.rating}
+  p= movie.description
+  p.text-muted Posted by #{movie.createdBy ? movie.createdBy.username : 'unknown'}
+
+  if isOwner
+    a.btn(href=`/movies/${movie._id}/edit`) Edit
+    button#deleteBtn.btn.btn-accent(type="button" data-id=movie._id style="margin-left:8px") Delete
+  a.btn-accent(href="/movies" style="margin-left:8px") ← Back to list
+
+  script.
+    (function(){
+      var btn = document.getElementById('deleteBtn');
+      if(!btn) return;
+      btn.addEventListener('click', function(){
+        if(!confirm('Delete this movie?')) return;
+        var id = btn.getAttribute('data-id');
+        fetch('/movies/' + id, { method: 'DELETE', headers: { 'Accept': 'application/json' }})
+          .then(r => r.ok ? r.json() : Promise.reject())
+          .then(() => { window.location.href = '/movies'; })
+          .catch(() => { alert('Delete failed'); });
+      });
+    })();

@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  h1 Login
+  if error
+    .flash-error= error
+  form(method="POST", action="/login")
+    label(for="username") Username
+    input#username(type="text", name="username", required)
+    label(for="password") Password
+    input#password(type="password", name="password", required)
+    button.btn(type="submit") Login
+  p.text-muted
+    | New here?
+    a(href="/register")  Create an account

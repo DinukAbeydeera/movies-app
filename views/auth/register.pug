@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  h1 Register
+  if errors
+    ul
+      each e in errors
+        li= e.msg
+  form(method="POST", action="/register")
+    input(type="text", name="username", placeholder="Username", value=old && old.username)
+    input(type="email", name="email", placeholder="Email", value=old && old.email)
+    input(type="password", name="password", placeholder="Password")
+    button(type="submit") Register
+  p
+    | Already have an account?
+    a(href="/login") Login
