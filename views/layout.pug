@@ -6,25 +6,22 @@ html
     title= title || 'Movies App'
     link(rel="stylesheet", href="/css/styles.css")
     script.
-      document.addEventListener('DOMContentLoaded', function () {
-        const btn = document.getElementById('menu-toggle');
-        const menu = document.getElementById('dropdown-menu');
-        if (!btn || !menu) return;
-
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menu.classList.toggle('show');
-        });
-        document.addEventListener('click', (e) => {
-          if (!menu.contains(e.target) && !btn.contains(e.target)) menu.classList.remove('show');
-        });
-        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=> menu.classList.remove('show')));
-      });
+      // Persist theme (light/dark) with localStorage
+      (function(){
+        try{
+          var saved = localStorage.getItem('theme');
+          if(saved){ document.documentElement.setAttribute('data-theme', saved); }
+        }catch(e){}
+      })();
   body
     header.navbar
       .brand
         a(href="/") 🎬 Movies App
-      button#menu-toggle.nav-toggle(type="button" aria-label="Toggle navigation") ☰
+        small Manage & review your favorites
+      .right
+        span.theme-switch
+          button(type="button" id="themeToggle" aria-label="Toggle theme") 🌗
+        button#menu-toggle.nav-toggle(type="button" aria-label="Toggle navigation") ☰
       ul#dropdown-menu.nav-links
         li: a(href="/") Home
         li: a(href="/movies") Movies
@@ -48,4 +45,24 @@ html
       block content
 
     footer.site-footer
-      p © #{new Date().getFullYear()} Movies App · Built with Express, Pug & MongoDB
+      p © #{new Date().getFullYear()} Movies App · Express · Pug · MongoDB
+
+    // Interactions
+    script.
+      document.addEventListener('DOMContentLoaded', function () {
+        var btn = document.getElementById('menu-toggle');
+        var menu = document.getElementById('dropdown-menu');
+        if(btn && menu){
+          btn.addEventListener('click', function(e){ e.stopPropagation(); menu.classList.toggle('show'); });
+          document.addEventListener('click', function(e){ if(!menu.contains(e.target) && !btn.contains(e.target)) menu.classList.remove('show'); });
+          menu.querySelectorAll('a').forEach(a => a.addEventListener('click', ()=> menu.classList.remove('show')));
+        }
+        var t = document.getElementById('themeToggle');
+        if(t){
+          t.addEventListener('click', function(){
+            var cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', cur);
+            try{ localStorage.setItem('theme', cur); }catch(e){}
+          });
+        }
+      });
